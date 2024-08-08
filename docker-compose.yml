@@ -1,0 +1,49 @@
+version: "3.4"
+services:
+  db:
+    image: cloudacademydevops/stocks-db:v1
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret123
+    healthcheck:
+      test: mysql -h127.0.0.1 -uroot -psecret123 stocks
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      stocks:
+
+  api:
+    image: cloudacademydevops/stocks-api:v2
+    ports:
+      - 8080:8080
+    links:
+      - db
+    environment:
+      - DB_CONNSTR=jdbc:mysql://db:3306/stocks
+      - DB_USER=root
+      - DB_PASSWORD=secret123
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      stocks:
+
+  frontend:
+    image: cloudacademydevops/stocks-app:v4
+    ports:
+      - 8000:8080
+    links:
+      - api
+    environment:
+      - REACT_APP_APIHOSTPORT=localhost:8080
+    depends_on:
+      - api
+    networks:
+      stocks:
+
+networks:
+  stocks:
+    driver: bridge
