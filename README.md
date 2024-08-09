@@ -85,5 +85,43 @@ If the MySQL image wasn't pre-defined, we could have used Bitnami's Helm charts.
 
 ## PRODUCTION GRADE KUBERNETES ENVIRONMENT
 
+**ARCHITECTURE:**
+
+Kubernetes high-level components can be categorized in 
+- Control plane: This is the brain of the Kubernetes cluster. It is responsible for making global decisions about the cluster, such as scheduling new pods, creating load balancers, and configuring network rules.
+- Worker nodes: These are the machines that run the applications. Each worker node has a set of components that provide the Kubernetes runtime environment.
+
+Kubernetes low-level details are as follows:
+Worker node components:
+
+- Kubelet: This agent runs on each worker node and is responsible for communicating with the control plane, managing pods, and ensuring that containers are running and healthy.
+- Kube-proxy: This network proxy runs on each worker node and implements service networking and load balancing.
+Container runtime: This is a software package that is responsible for running containers on the worker node. The most common container runtimes are Docker and contained.
+
+Control plane components:
+- Kube-apiserver: This is the front end of the Kubernetes control plane. It exposes the Kubernetes API, which can be used by users and other components to interact with the cluster.
+- Etcd: distributed key-value store that is used by Kubernetes to store cluster state.
+- Kube-scheduler: This component is responsible for deciding which node to place new pods on.
+- Kube-controller-manager: This component runs a set of controller processes that perform various cluster management tasks, such as creating endpoints, managing replication controllers, and cleaning up terminated pods.
+- Cloud controller manager: This component integrates Kubernetes with cloud-specific features and services.
+
+
+My implementation of a self-managed Kubernetes environment would be something like this:
+
+I would start by selecting Ubuntu 24.04 as the base operating system for all nodes. This choice ensures compatibility and stability with Kubernetes v1.30.3 and meets our requirements.
+
+For the control plane, I would deploy at least three control plane nodes to ensure high availability and fault tolerance. These nodes will manage the overall cluster operations, including scheduling and handling API requests. I would install the necessary Kubernetes components on these nodes: the API Server to manage cluster state and user requests, the Controller Manager to maintain desired cluster states, the Scheduler to allocate workloads to worker nodes, and etcd as the distributed key-value store for cluster data and configuration.
+
+On the worker nodes, which are responsible for running application workloads, I would set up the kubelet to ensure containers are running as expected. Additionally, I would install kube-proxy to handle networking rules and facilitate communication between pods and services. For container management, I would select and configure a container runtime such as Docker, containerd, or CRI-O.
+
+I would then look into the networking. I would ensure that all nodes, both control plane and worker nodes, are connected via a private network for secure and efficient communication. I would also choose and configure a Container Networking Interface (CNI) plugin to manage internal cluster networking.
+
+For storage, I would use a Container Storage Interface (CSI) to manage persistent storage, integrating with external storage systems to provide volumes for pods. I would configure a default storage class to allow dynamic provisioning of these volumes as needed by applications.
+
+To address high availability and scalability, I would deploy multiple control plane nodes and configure an external load balancer to distribute incoming requests across these nodes. This setup ensures that the cluster remains operational even if one node fails and handles increased load effectively.
+
+I would also secure my environment. I would implement Role-Based Access Control (RBAC) to manage access to Kubernetes resources and control user actions within the cluster. I would also apply network policies to regulate pod communication, enhancing security and isolation within the cluster.
+
+
 
 
