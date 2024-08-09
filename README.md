@@ -74,8 +74,16 @@ namespace.name: The name of the namespace to create.
 
 
 
+## DATABASE CONSIDERATIONS AND OTHER BEST PRACTICES
 
+- In this setup, I am using a pre-built MySQL Docker image developed by cloudacademy that's included in our Helm chart to deploy the database directly within the Kubernetes cluster. This method is straightforward since the image is already defined, making it easy to manage everything in one place.
+If the MySQL image wasn't pre-defined, we could have used Bitnami's Helm charts. Bitnami provides well-maintained, production-ready Helm charts for various applications, including MySQL. These charts come with advanced features like automatic backups, high availability, and easy scaling, which are ideal for more complex or large-scale deployments.
 
+- In the current setup, I have deployed MySQL without persistent storage, so data stored in the database would be lost if the pod is restarted or deleted. To avoid this, Persistent Volumes (PVs) and Persistent Volume Claims (PVCs) can be used to provide a stable, long-term storage solution.
+
+- Currently, I am storing sensitive information like database passwords directly in the deployment YAML. While this works, it's not secure. A better approach is to use Kubernetes Secrets.
+
+## PRODUCTION GRADE KUBERNETES ENVIRONMENT
 
 
 
