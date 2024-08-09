@@ -18,4 +18,12 @@ I have chosen to use the stocks application developed by CloudAcademy. This appl
 
 ## SPRINT 2: Creating Helm Chart for the Trading Application
 
+Kubernetes Manifests Creation and Deployment without Helm
+![image](https://github.com/user-attachments/assets/76e933c3-d850-47c1-9d32-017e0f00a91f)
+![image](https://github.com/user-attachments/assets/0d9545fa-9845-4e33-9861-7abc890de710)
+
+While working with minikube I faced issues making the connection between the API and app pods work because of the way minikube exposes the service to any program running on the host operating system.
+
+
+
 
