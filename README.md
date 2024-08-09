@@ -50,28 +50,29 @@ Database Service: Deploys a MySQL database as a Kubernetes Deployment and expose
 **UNINSTALLTION**
 `helm uninstall <release-name>`
 
-Global Parameters
-Parameter	Description	Default
-namespace.name	The name of the namespace to create.	stocks-namespace
-API Service Parameters
-Parameter	Description	Default
-api.replicas	Number of API replicas	1
-api.image	API container image	cloudacademydevops/stocks-api:v2
-api.dbConnStr	Database connection string	jdbc:mysql://db-service:3306/stocks
-api.dbUser	Database username	root
-api.dbPassword	Database password	secret123
-api.nodePort	NodePort for exposing the API service	30001
-Frontend Service Parameters
-Parameter	Description	Default
-app.replicas	Number of frontend replicas	1
-app.image	Frontend container image	cloudacademydevops/stocks-app:v4
-app.apiHostPort	API host and port for frontend access	127.0.0.1:39337
-app.nodePort	NodePort for exposing the frontend service	30002
-Database Service Parameters
-Parameter	Description	Default
-db.replicas	Number of database replicas	1
-db.image	Database container image	cloudacademydevops/stocks-db:v1
-db.rootPassword	MySQL root password	secret123
+**Global Parameters**
+namespace.name: The name of the namespace to create. 
+
+**API Service Parameters**
+- api.replicas: Number of API replicas. 
+- api.image: API container image. 
+- api.dbConnStr: Database connection string.
+- api.dbUser: Database username.
+- api.dbPassword: Database password.
+- api.nodePort: NodePort for exposing the API service. 
+
+**Frontend Service Parameters**
+- app.replicas: Number of frontend replicas.
+- app.image: Frontend container image.
+- app.apiHostPort: API host and port for frontend access.
+- app.nodePort: NodePort for exposing the frontend service.
+- 
+**Database Service Parameters**
+- db.replicas: Number of database replicas. 
+- db.image: Database container image. 
+- db.rootPassword: MySQL root password.
+
+
 
 
 
