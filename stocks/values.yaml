@@ -1,0 +1,21 @@
+namespace:
+  name: stocks-namespace
+
+api:
+  replicas: 1
+  image: cloudacademydevops/stocks-api:v2
+  dbConnStr: "jdbc:mysql://db-service:3306/stocks"
+  dbUser: "root"
+  dbPassword: "secret123"
+  nodePort: 30001
+
+app:
+  replicas: 1
+  image: cloudacademydevops/stocks-app:v4
+  apiHostPort: "127.0.0.1:43597"     ## replace the port with the Nodeport for the api service or the minikube tunnel port in our case.
+  nodePort: 30002
+
+db:
+  replicas: 1
+  image: cloudacademydevops/stocks-db:v1
+  rootPassword: "secret123"

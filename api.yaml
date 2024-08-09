@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api
-  namespace: {{ .Values.namespace.name }}
+  namespace: stocks-namespace
 spec:
-  replicas: {{ .Values.api.replicas }}
+  replicas: 1
   selector:
     matchLabels:
       app: api
@@ -15,27 +15,27 @@ spec:
     spec:
       containers:
       - name: api
-        image: {{ .Values.api.image }}
+        image: cloudacademydevops/stocks-api:v2
         ports:
         - containerPort: 8080
         env:
         - name: DB_CONNSTR
-          value: {{ .Values.api.dbConnStr }}
+          value: "jdbc:mysql://db-service:3306/stocks"
         - name: DB_USER
-          value: {{ .Values.api.dbUser }}
+          value: "root"
         - name: DB_PASSWORD
-          value: {{ .Values.api.dbPassword }}
+          value: "secret123"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: api-service
-  namespace: {{ .Values.namespace.name }}
+  namespace: stocks-namespace
 spec:
   type: NodePort
   ports:
   - port: 8080
     targetPort: 8080
-    nodePort: {{ .Values.api.nodePort }}
+    nodePort: 30001  
   selector:
     app: api
