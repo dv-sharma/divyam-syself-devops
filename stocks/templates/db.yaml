@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  namespace: stocks-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - name: db
+        image: cloudacademydevops/stocks-db:v1
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "secret123"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+  namespace: stocks-namespace
+spec:
+  type: ClusterIP  
+  ports:
+  - port: 3306
+    targetPort: 3306
+  selector:
+    app: db
