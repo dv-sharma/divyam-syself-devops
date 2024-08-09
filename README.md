@@ -16,7 +16,7 @@ I have chosen to use the stocks application developed by CloudAcademy. This appl
 ![image](https://github.com/user-attachments/assets/99ad8435-f079-45d3-afce-7674dc495520)
 ![image](https://github.com/user-attachments/assets/cc86f3e1-4389-49a3-bc8c-94c2b160e43e)
 
-## SPRINT 2: Creating Helm Chart for the Trading Application
+## SPRINT 2: Creating Kubernetes Manifests and Helm chart directory structure for the Trading Application
 
 Kubernetes Manifests Creation and Deployment without Helm
 ![image](https://github.com/user-attachments/assets/76e933c3-d850-47c1-9d32-017e0f00a91f)
