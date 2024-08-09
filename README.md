@@ -5,7 +5,7 @@
 - Single Helm Chart to deploy all components to a desired namespace with best production practises.
 - Database deployment integration and considerations.
 
-## SPRINT 1: Choosing an application with backend logic and database and manual deployment for image verification and understanding the variables.
+## SPRINT 1: Choosing an application with backend logic, database, and manual deployment for image verification and understanding the variables.
 I have chosen to use the stocks application developed by CloudAcademy. This application is a stock data management system designed to handle and store stock market data using a Spring Boot backend and a MySQL database. It provides a RESTful API for CRUD operations on stock data.
 
 - Completed running the containers manually with docker-compose and the application is working as expected on localhost. Faced errors related to mysql connection failure , did troubleshooting using
@@ -23,6 +23,57 @@ Kubernetes Manifests Creation and Deployment without Helm
 ![image](https://github.com/user-attachments/assets/0d9545fa-9845-4e33-9861-7abc890de710)
 
 While working with minikube I faced issues making the connection between the API and app pods work because of the way minikube exposes the service to any program running on the host operating system.
+
+## SPRINT 3: Creating Helm Chart, Packaging and Installing on Minikube cluster
+
+![image](https://github.com/user-attachments/assets/79d9e341-c67a-4818-945b-f3816d0ca493)
+
+
+
+
+## PROJECT DOCUMENTATION AND INSTALLATION STEPS
+
+This Helm chart deploys a multi-tiered application that includes an API service, a frontend service, and a MySQL database. Each service is deployed as a Kubernetes Deployment and exposed via a Service resource.
+
+## HELM STRUCTURE
+
+The chart consists of the following components:
+
+Namespace: Defines the namespace where the application will run.
+API Service: Deploys the API backend as a Kubernetes Deployment and exposes it via a NodePort Service.
+Frontend Service: Deploys the frontend application as a Kubernetes Deployment and exposes it via a NodePort Service.
+Database Service: Deploys a MySQL database as a Kubernetes Deployment and exposes it via a ClusterIP Service.
+
+**INSTALLATION**
+`helm install <release-name> ./<path>`
+
+**UNINSTALLTION**
+`helm uninstall <release-name>`
+
+Global Parameters
+Parameter	Description	Default
+namespace.name	The name of the namespace to create.	stocks-namespace
+API Service Parameters
+Parameter	Description	Default
+api.replicas	Number of API replicas	1
+api.image	API container image	cloudacademydevops/stocks-api:v2
+api.dbConnStr	Database connection string	jdbc:mysql://db-service:3306/stocks
+api.dbUser	Database username	root
+api.dbPassword	Database password	secret123
+api.nodePort	NodePort for exposing the API service	30001
+Frontend Service Parameters
+Parameter	Description	Default
+app.replicas	Number of frontend replicas	1
+app.image	Frontend container image	cloudacademydevops/stocks-app:v4
+app.apiHostPort	API host and port for frontend access	127.0.0.1:39337
+app.nodePort	NodePort for exposing the frontend service	30002
+Database Service Parameters
+Parameter	Description	Default
+db.replicas	Number of database replicas	1
+db.image	Database container image	cloudacademydevops/stocks-db:v1
+db.rootPassword	MySQL root password	secret123
+
+
 
 
 
